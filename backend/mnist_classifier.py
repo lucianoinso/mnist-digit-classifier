@@ -35,14 +35,6 @@ def train_model():
     ds_test = ds_test.cache()
     ds_test = ds_test.prefetch(tf.data.AUTOTUNE)
 
-    """
-    model = tf.keras.models.Sequential([
-      tf.keras.layers.Flatten(input_shape=(28, 28)),
-      tf.keras.layers.Dense(128, activation='relu'),
-      tf.keras.layers.Dense(10)
-    ])
-
-    """
     model = tf.keras.models.Sequential([
         tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation="relu",
                                padding='same', input_shape=[28, 28, 1]),
@@ -56,7 +48,6 @@ def train_model():
         tf.keras.layers.Dense(128, activation='relu'),
         tf.keras.layers.Dense(units=10),
     ])
-
 
     model.compile(
         optimizer=tf.keras.optimizers.Adam(0.001),
