@@ -75,20 +75,16 @@ def plot_train_valid(history):
     plt.show()
 
 
-def predict():
+def predict(img_filename):
     if (not (exists('trained_model/mnist_predictor'))):
         model, history = train_model()
         plot_train_valid(history)
     else:
         model = tf.keras.models.load_model('trained_model/mnist_predictor')
 
-    img = Image.open("image.png").convert('L').resize((28, 28),
+    img = Image.open(img_filename).convert('L').resize((28, 28),
                                                       Image.ANTIALIAS)
     img = np.array(img)
-    # invert colors
-    # img = 1 - img
-    res = Image.fromarray(img)
-    res.save('out.bmp')
 
     p = model.predict(img[None, :, :])
     print(p)
@@ -98,5 +94,6 @@ def predict():
 
 
 if __name__ == '__main__':
-    prediction = predict()
+    img_filename = input("Enter your image filename: ")
+    prediction = predict(img_filename)
     print(prediction)

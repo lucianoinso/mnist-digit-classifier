@@ -19,9 +19,9 @@ def hello():
 def return_prediction():
     if request.method == 'POST':
         b64_image = request.form.to_dict(flat=False)['imageBase64'][0][22:]
-        with open("image.png", "wb") as imagefile:
+        img_filename = 'image.png'
+        with open(img_filename, "wb") as imagefile:
             imagefile.write(base64.b64decode(b64_image))
-
-    prediction = predict()
+    prediction = predict(img_filename)
     response = {'message': prediction}
     return jsonify(response)

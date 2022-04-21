@@ -114,7 +114,9 @@
 
         async function send_image() {
           try {
-            const res = await ajax_call('https://mnist-classifier-convnet.herokuapp.com/predict');
+            const res = await ajax_call('http://127.0.0.1:5000/predict');
+            // Uncomment next line if you want to use the deployed model
+            // const res = await ajax_call('https://mnist-classifier-convnet.herokuapp.com/predict');
             document.getElementsByClassName('prediction')[0].innerHTML = res['message'] + "?";
           } catch(err) {
             console.log(err);
