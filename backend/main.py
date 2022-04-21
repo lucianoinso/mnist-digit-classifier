@@ -22,6 +22,9 @@ def return_prediction():
         img_filename = 'image.png'
         with open(img_filename, "wb") as imagefile:
             imagefile.write(base64.b64decode(b64_image))
-    prediction = predict(img_filename)
-    response = {'message': prediction}
+        prediction = predict(img_filename)
+        response = {'message': prediction}
+    else:
+        response = {'message': "Method not allowed"}
+    
     return jsonify(response)
