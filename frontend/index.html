@@ -1,0 +1,125 @@
+<html>
+<head>
+    <style>
+        body{
+          background-color:#DDD;
+          font-family: verdana;
+        }
+
+        #canvas {
+          touch-action: none;
+          background-color:white;
+        }
+
+        #result {
+          margin-top:10px;
+        }
+        .prediction{
+          display:inline;
+          width:80px;
+        }
+        #buttons{
+          width:128;
+        }
+        #buttons #clear{
+          float:right;
+        }
+        #content {
+          width:158px;
+          height:234px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+    <div id="content">
+        <canvas id='canvas' width="128" height="128"></canvas>
+        <div id="buttons" style="margin-top:10px">
+                <button id="upload" onclick="send_image()">Classify</button>
+                <button id="clear" onclick="clear_canvas()">Clear</button>
+        </div>
+        <div id="result">
+            <div id="result">Is the number: <div class="prediction"></div></div>
+        </div>
+    </div>
+
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        var pos = { x: 0, y: 0 };
+
+        document.addEventListener('mousemove', draw);
+        document.addEventListener('mousedown', setPosition);
+        document.addEventListener('mouseenter', setPosition);
+
+        document.addEventListener("touchstart", setPosition, false);
+        document.addEventListener("touchmove", draw, false);
+        document.addEventListener("touchend", setPosition, false);
+        document.addEventListener("touchcancel", draw, false);
+
+
+        function setPosition(e) {
+          var source = e.touches ? e.touches[0] : e;
+          
+          pos.x = source.clientX - 10;
+          pos.y = source.clientY - 10;
+        }
+
+        function draw(e) {
+          if (e.type === 'mousemove' && e.buttons !== 1) return;
+
+          ctx.beginPath();
+
+          ctx.lineWidth = 10;
+          ctx.lineCap = 'round';
+          ctx.strokeStyle = '#FFF';
+
+          ctx.moveTo(pos.x, pos.y);
+          setPosition(e);
+          ctx.lineTo(pos.x, pos.y);
+
+          ctx.stroke();
+        }
+
+        function clear_canvas()
+        {
+            var canvas = document.getElementById('canvas');
+            ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "black";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            document.getElementsByClassName('prediction')[0].innerHTML = '';
+        }
+    </script>
+
+    <script>
+        function ajax_call(ajaxurl) {
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+            var dataURL = canvas.toDataURL();
+            return $.ajax({
+                type: "POST",
+                url: ajaxurl,
+                data:{
+                    imageBase64: dataURL
+                }
+            }).done(function() {
+              console.log('sent');
+            });
+        }
+
+        async function send_image() {
+          try {
+            const res = await ajax_call('https://mnist-classifier-convnet.herokuapp.com/predict');
+            document.getElementsByClassName('prediction')[0].innerHTML = res['message'] + "?";
+          } catch(err) {
+            console.log(err);
+          }
+        }
+    </script>
+</body>
+</html>
