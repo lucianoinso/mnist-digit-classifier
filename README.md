@@ -1,4 +1,4 @@
 # mnist-digit-classifier
 Backend and frontend implementation for digits classification.
 
-[Demo](https://lucianoinso.github.io/mnist/), backend deployed and running on [Heroku](https://www.heroku.com) platform.
+[Demo](https://lucianoinso.github.io/mnist/), backend deployed and running on ~~[Heroku](https://www.heroku.com) platform~~ (Heroku no longer provides free tier service).
