@@ -35,22 +35,6 @@ def train_model():
     ds_test = ds_test.cache()
     ds_test = ds_test.prefetch(tf.data.AUTOTUNE)
 
-    """
-    model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation="relu",
-                               padding='same', input_shape=[28, 28, 1]),
-        tf.keras.layers.MaxPool2D(pool_size=(3, 3), strides=3,
-                                  padding='valid'),
-        tf.keras.layers.Conv2D(filters=64, kernel_size=2, activation="relu",
-                               padding='same'),
-        tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2),
-                                  padding='valid'),
-        tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(128, activation='relu'),
-        tf.keras.layers.Dense(units=10),
-    ])
-    """
-
     model = tf.keras.models.Sequential([
         tf.keras.layers.Conv2D(filters=10, kernel_size=5, activation="relu",
                                padding='same', input_shape=[28, 28, 1]),
@@ -65,10 +49,10 @@ def train_model():
         tf.keras.layers.Dense(100, activation='relu'),
         tf.keras.layers.Dense(units=10, activation='softmax'),
     ])
-    
+
     model.compile(
         optimizer=tf.keras.optimizers.Adam(0.001),
-        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+        loss=tf.keras.losses.SparseCategoricalCrossentropy(),
         metrics=[tf.keras.metrics.SparseCategoricalAccuracy()],
     )
 
@@ -100,7 +84,7 @@ def predict(img_filename):
         model = tf.keras.models.load_model('trained_model/mnist_predictor')
 
     img = Image.open(img_filename).convert('L').resize((28, 28),
-                                                      Image.ANTIALIAS)
+                                                       Image.ANTIALIAS)
     img = np.array(img)
 
     p = model.predict(img[None, :, :])
@@ -111,8 +95,7 @@ def predict(img_filename):
 
 
 if __name__ == '__main__':
-    #img_filename = input("Enter your image filename: ")
+    # img_filename = input("Enter your image filename: ")
     img_filename = "image.png"
-#    img_filename = "zero.png"
     prediction = predict(img_filename)
     print(prediction)

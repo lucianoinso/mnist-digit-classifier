@@ -9,11 +9,6 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
 
-@app.route('/')
-def hello():
-    return "Hello World!"
-
-
 @app.route('/predict', methods=['POST'])
 @cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def return_prediction():
@@ -26,5 +21,5 @@ def return_prediction():
         response = {'message': prediction}
     else:
         response = {'message': "Method not allowed"}
-    
+
     return jsonify(response)
