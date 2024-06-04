@@ -1,0 +1,9 @@
+absl-py==1.0.0
+protobuf==3.20.3
+numpy==1.26.4
+tflite-runtime==2.14.0
+pillow==9.5
+flask==3.0.0
+Flask-Cors==4.0.0
+pyyaml==6.0.1
+h5py==3.10.0
