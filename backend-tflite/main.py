@@ -4,7 +4,7 @@ from mnist_classifier import predict
 import base64
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'yoursecretkey')
 app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
