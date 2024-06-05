@@ -11,7 +11,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 CORS(app)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/predict', methods=['GET', 'POST'])
 def return_prediction():
     if request.method == 'POST':
         b64_image = request.form.to_dict(flat=False)['imageBase64'][0][22:]
