@@ -115,9 +115,12 @@
         async function send_image() {
           try {
             const res = await ajax_call('http://127.0.0.1:5000/predict');
-            // Uncomment next line if you want to use the deployed model
-            // const res = await ajax_call('https://lucianoinso-mnist-digit-classifier.hf.space/');
-            document.getElementsByClassName('prediction')[0].innerHTML = res['message'] + "?";
+            const prediction = res['message'];
+            // Comment out the previous two lines and uncomment the next
+            // two lines if you want to use the deployed model
+            // const res = await ajax_call('https://lucianoinso.pythonanywhere.com/');
+            // const prediction = res['message'][0];
+            document.getElementsByClassName('prediction')[0].innerHTML = prediction + "?";
           } catch(err) {
             console.log(err);
           }
