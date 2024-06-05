@@ -58,7 +58,7 @@ def train_model():
 
     history = model.fit(
         ds_train,
-        epochs=6,
+        epochs=5,
         validation_data=ds_test,
     )
 

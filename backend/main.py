@@ -10,7 +10,6 @@ CORS(app)
 
 
 @app.route('/predict', methods=['POST'])
-@cross_origin(origin='localhost', headers=['Content-Type', 'Authorization'])
 def return_prediction():
     if request.method == 'POST':
         b64_image = request.form.to_dict(flat=False)['imageBase64'][0][22:]
@@ -23,3 +22,6 @@ def return_prediction():
         response = {'message': "Method not allowed"}
 
     return jsonify(response)
+
+if __name__ == '__main__':
+    app.run()
