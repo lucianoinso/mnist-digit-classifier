@@ -36,23 +36,23 @@ def train_model():
     ds_test = ds_test.prefetch(tf.data.AUTOTUNE)
 
     model = tf.keras.models.Sequential([
-        tf.keras.layers.Conv2D(filters=10, kernel_size=5, activation="relu",
+        tf.keras.layers.Conv2D(filters=32, kernel_size=3, activation="relu",
                                padding='same', input_shape=[28, 28, 1]),
-        tf.keras.layers.MaxPool2D(pool_size=2, strides=2,
+        tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2),
                                   padding='valid'),
-        tf.keras.layers.Conv2D(filters=20, kernel_size=5, activation="relu",
+        tf.keras.layers.Conv2D(filters=64, kernel_size=3, activation="relu",
                                padding='same'),
-        tf.keras.layers.MaxPool2D(pool_size=2, strides=2,
+        tf.keras.layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2),
                                   padding='valid'),
-        tf.keras.layers.Dropout(0.25),
         tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(100, activation='relu'),
-        tf.keras.layers.Dense(units=10, activation='softmax'),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dropout(0.5),
+        tf.keras.layers.Dense(units=10),
     ])
 
     model.compile(
         optimizer=tf.keras.optimizers.Adam(0.001),
-        loss=tf.keras.losses.SparseCategoricalCrossentropy(),
+        loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
         metrics=[tf.keras.metrics.SparseCategoricalAccuracy()],
     )
 
